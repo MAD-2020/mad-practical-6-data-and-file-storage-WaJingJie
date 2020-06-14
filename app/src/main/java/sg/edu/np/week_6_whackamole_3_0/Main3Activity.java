@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class Main3Activity extends AppCompatActivity {
     /* Hint:
         1. This displays the available levels from 1 to 10 to the user.
@@ -28,16 +30,33 @@ public class Main3Activity extends AppCompatActivity {
     private static final String FILENAME = "Main3Activity.java";
     private static final String TAG = "Whack-A-Mole3.0!";
 
+    UserData data = MainActivity.userdata;
+
+    RecyclerView rv;
+    ArrayList<Integer> levelList, scoreList;
+    CustomScoreAdaptor adaptor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+
         /* Hint:
         This method receives the username account data and looks up the database for find the
         corresponding information to display in the recyclerView for the level selections page.
 
         Log.v(TAG, FILENAME + ": Show level for User: "+ userName);
          */
+        rv = findViewById(R.id.rvlvllist);
+        adaptor = new CustomScoreAdaptor(this,data);
+        rv.setAdapter(adaptor);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rv.setLayoutManager(layoutManager);
+        rv.setItemAnimator(new DefaultItemAnimator());
+
+        Intent data = getIntent();
+        String username = data.getDataString();
+        Log.v(TAG, FILENAME + ": Show level for User: "+ username);
+
     }
 
     @Override
